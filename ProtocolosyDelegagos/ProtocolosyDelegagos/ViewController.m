@@ -18,13 +18,16 @@
     NSLog(@"Inicio Descarga");
 }
 -(void) fileChangeDownloading:(NSURLConnection *)connection didReceiveDada:(NSData *)data andProgress:(float)progress{
-    NSLog(@"%f", progress * 100);
+//    NSLog(@"%f", progress * 100);
+    _progressView.progress = progress * 100;
 }
 -(void)FileFinishDownload:(NSString *)name{
     NSLog(@"Descarga Existosa en Memoria");
 }
 -(void)FileFinishDownload:(NSString *)filePath andName:(NSString *)name{
     NSLog(@"Descarga Exitosa en dispositivo");
+    NSData * infoImage = [NSData dataWithContentsOfFile:filePath];
+    _imageView.image = [UIImage imageWithData:infoImage];
 }
 -(void)fileDownload:(NSURLConnection *)connection didFailWithError:(NSError *)error andName:(NSString *)name{
     NSLog(@"Error %@", error);
@@ -43,7 +46,7 @@
 
 - (IBAction)downloadFileButton:(id)sender {
     FileDownload * descarga = [[FileDownload alloc]init];
-    [descarga initDownloadFile:@"http://icdn7.digitaltrends.com/image/nowhereelse-iphone-6-concept-gold-1131x753.jpg" withName:@"foto2.jpg"];
+    [descarga initDownloadFile:_urlText.text withName:_fileText.text];
     descarga.delegate = self;
 
 }
